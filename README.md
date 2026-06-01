@@ -9,7 +9,7 @@
 
 其中加入AHB_Master_Agent, APB_Slave_Agent, Scoreboard
 
-使用single及burst testcse進行測試，並進行Coverage
+使用single write/read testcase, burst write/read testcse進行測試，並進行Coverage
 
 ## Verification Environment
 ```
@@ -24,19 +24,13 @@
     │   └── cmsdk_ahb_to_apb.sv
     │
     ├── sim
-    │   ├── Makefile
-    │   └── runlist
+    │   └── Makefile
     │ 
     └── tb
         ├── env
-        │   ├── agent.sv
-        │   ├── env.sv
-        │   ├── monitor.sv
-        │   ├── ref_model.sv
-        │   ├── scoreboard.sv
-        │   ├── sequencer.sv
-        │   ├── sequencer.sv
-        │   └── transaction.sv
+        │   ├── ahb2apb_env.sv
+        │   ├── ahb2apb_scb.sv
+        │   └── func_cov.sv
         │ 
         ├── interface
         │   └── reset_if.sv
@@ -47,15 +41,16 @@
         │   └── apb_slv_pkg.sv
         │
         ├── testcase
+        │   ├── ahb2apb_base_test.sv
         │   ├── ahbl_mst_burst_nrdy.sv
         │   ├── ahbl_mst_burst_slverr.sv
         │   ├── ahbl_mst_read_single32.sv
         │   └── ahbl_mst_write_single32_nrdy.sv
         │    
         ├── top
-        │   ├── tb_top.sv
         │   ├── rtl.f
-        │   └── tb.f
+        │   ├── tb.f
+        │   └── tb_top.sv
         │
         └── vip
             ├── ahbl_mst
@@ -82,11 +77,15 @@
 ## Makefile excution
 make comp 
 
-make all TESTNAME=basetest
+make sim TESTNAME=ahb2apb_base_test
 
-make sim TESTNAME=my_case0
+make sim TESTNAME=ahbl_mst_write_single32_nrdy
 
-make sim TESTNAME=my_case1
+make sim TESTNAME=ahbl_mst_read_single32
+
+make sim TESTNAME=ahbl_mst_burst_nrdy
+
+make sim TESTNAME=ahbl_mst_burst_slverr
 
 
 ## UVM testbench topology
