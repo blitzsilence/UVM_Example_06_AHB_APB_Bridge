@@ -1,15 +1,22 @@
 # UVM_Example_AHB_APB_Bridge
 
-#### Intro
+## Intro
 參考網上 路克驗證的課程
-首先，分別建立AHB_Master_Agent跟APB_Slave_Agent的VIP環境
-再建立一個AHB2APB的Env
-其中加入AHB_Master_Agent, APB_Slave_Agent, Scoreboard，並進行Coverage
 
-#### Verification Environment
+首先分別建立AHB_Master_Agent 跟APB_Slave_Agent 的VIP環境
+
+再建立一個AHB2APB的Env
+
+其中加入AHB_Master_Agent, APB_Slave_Agent, Scoreboard
+
+使用single及burst testcse進行測試，並進行Coverage
+
+## Verification Environment
 ```
     Project_root
     │
+    ├── README.md
+    │    
     ├── doc
     │   └── xxxx
     │
@@ -72,7 +79,7 @@
 
 ```
 
-#### Makefile excution note
+## Makefile excution
 make comp 
 
 make all TESTNAME=basetest
@@ -82,9 +89,56 @@ make sim TESTNAME=my_case0
 make sim TESTNAME=my_case1
 
 
-Dump FSDB:
+## UVM testbench topology
+```
+------------------------------------------------------------------
+Name                       Type                        Size  Value
+------------------------------------------------------------------
+uvm_test_top               ahb2apb_base_test           -     @470 
+  env                      ahb2apb_env                 -     @478 
+    ahb2apb_scb_i          ahb2apb_scb                 -     @503 
+      ahbl_port            uvm_blocking_get_port       -     @617 
+      apb_port             uvm_blocking_get_port       -     @626 
+    ahbl_mst_agt_i         ahbl_mst_agt                -     @487 
+      ahbl_mst_drv_i       ahbl_mst_drv                -     @640 
+        rsp_port           uvm_analysis_port           -     @657 
+        seq_item_port      uvm_seq_item_pull_port      -     @648 
+      ahbl_mst_mon_i       ahbl_mst_mon                -     @789 
+        ap                 uvm_analysis_port           -     @798 
+      ahbl_mst_sqr_i       ahbl_mst_sqr                -     @666 
+        rsp_export         uvm_analysis_export         -     @674 
+        seq_item_export    uvm_seq_item_pull_imp       -     @780 
+        arbitration_queue  array                       0     -    
+        lock_queue         array                       0     -    
+        num_last_reqs      integral                    32    'd1  
+        num_last_rsps      integral                    32    'd1  
+    ahblagt_scb_fifo       uvm_tlm_analysis_fifo #(T)  -     @511 
+      analysis_export      uvm_analysis_imp            -     @555 
+      get_ap               uvm_analysis_port           -     @546 
+      get_peek_export      uvm_get_peek_imp            -     @528 
+      put_ap               uvm_analysis_port           -     @537 
+      put_export           uvm_put_imp                 -     @519 
+    apb_slv_agt_i          apb_slv_agt                 -     @495 
+      apb_slv_drv_i        apb_slv_drv                 -     @812 
+        rsp_port           uvm_analysis_port           -     @829 
+        seq_item_port      uvm_seq_item_pull_port      -     @820 
+      apb_slv_mon_i        apb_slv_mon                 -     @961 
+        ap                 uvm_analysis_port           -     @971 
+      apb_slv_sqr_i        apb_slv_sqr                 -     @838 
+        rsp_export         uvm_analysis_export         -     @846 
+        seq_item_export    uvm_seq_item_pull_imp       -     @952 
+        arbitration_queue  array                       0     -    
+        lock_queue         array                       0     -    
+        num_last_reqs      integral                    32    'd1  
+        num_last_rsps      integral                    32    'd1  
+    apbagt_scb_fifo        uvm_tlm_analysis_fifo #(T)  -     @564 
+      analysis_export      uvm_analysis_imp            -     @608 
+      get_ap               uvm_analysis_port           -     @599 
+      get_peek_export      uvm_get_peek_imp            -     @581 
+      put_ap               uvm_analysis_port           -     @590 
+      put_export           uvm_put_imp                 -     @572 
+------------------------------------------------------------------
+```
 
-make sim TESTNAME=my_case0 DUMP_EN=1
 
-make sim TESTNAME=my_case1 DUMP_EN=1
 
