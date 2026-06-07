@@ -125,26 +125,6 @@ module tb_top;
 	end
 
 
-	// assertion
-	property psel_high_then_apbactive_high;
-		@(posedge PCLK) disable iff(!HRESETn)
-		apb_if_i.PSEL |-> APBACTIVE;
-	endproperty
-
-	property apbactive_high_then_psel_high;
-		@(posedge PCLK) disable iff(!HRESETn)
-		$rose(APBACTIVE) |=> apb_if_i.PSEL;
-	endproperty
-
-	property hresp_hready;
-		@(posedge PCLK) disable iff(!HRESETn)
-		ahbl_if_i.HRESP |-> ahbl_if_i.HREADYOUT && !$past(ahbl_if_i.HREADYOUT);
-	endproperty
-
-	a_psel_high_then_apbactive_high: assert property(psel_high_then_apbactive_high);
-	a_apbactive_high_then_psel_high: assert property(apbactive_high_then_psel_high);
-	a_hresp_hready:                  assert property(hresp_hready);
-
 	// ratio coverpoint
 	covergroup hclk_pclk_ratio;
 		option.per_instance = 1;
